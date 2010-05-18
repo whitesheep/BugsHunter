@@ -1,6 +1,7 @@
 import  std.*;
 include std.io.Directory;
 include icommand;
+include Parser;
 
 /*
  * 	Eredito da Directory così posso loopare su me stessa.
@@ -28,12 +29,18 @@ class BH_commands extends Directory {
 		load(script);
 		me.commands[__cmd_instance.name] = __cmd_instance;
 	}
+	
+	public method intro(){
+		println( "Bugs Hunter 0.1 hybris version",
+			 "coded by white_sheep & evilsocket",
+			 "http://ihteam.net\n" );
+	}
 
 	public method help(){
-		println( "Bugs Hunter 0.1 hybris version",
-			 	 "coded by white_sheep & evilsocket",
-			 	 "http://ihteam.net\n" );
-	
+		me.intro();
+		println("All commands: ",
+			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
+			"* import\t\t\t\t\t\t\t\t\timport external plugin");
 		foreach( name -> cmd of me.commands ){
 			cmd.help();
 		}
@@ -61,6 +68,7 @@ class BH_commands extends Directory {
 
 
 bh = new BH_commands();
+bh.intro();
 
 while (1){
 

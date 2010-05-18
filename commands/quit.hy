@@ -4,7 +4,7 @@ class Quit extends ICommand {
 	}
 
 	public method help(){
-		println( "quit" );
+		println( "* quit\t\t\t\t\t\t\t\t\t\tquit from BugsHunter" );
 	}
 
 	public method exec( args ){
