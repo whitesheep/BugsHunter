@@ -20,9 +20,13 @@ class BH_commands extends Directory {
 		 */
 		 
 		foreach( command of me ){
-			load( "./commands/" + command );
-			me.commands[__cmd_instance.name] = __cmd_instance;
+			me.import("./commands/" + command);
 		}
+	}
+	
+	public method import(script){
+		load(script);
+		me.commands[__cmd_instance.name] = __cmd_instance;
 	}
 
 	public method help(){
@@ -45,6 +49,9 @@ class BH_commands extends Directory {
 		}
 		else if( cmd == "help" ){
 			me.help();
+		}
+		else if( cmd == "import" ){
+			me.import(args);
 		}
 		else{
 			println( cmd + " unknown command" );

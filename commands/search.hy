@@ -15,7 +15,7 @@ class Search extends ICommand {
 		else {		
 			foreach ( arg of args.split(" ") ){
 				( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-				$name_var = var;
+				println(name_var + " = " + var );
 			}
 		}
 	}
