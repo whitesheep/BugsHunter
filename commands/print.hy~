@@ -1,5 +1,5 @@
-class Print extends ICommand {
-	public method Print(){
+class Print_ extends ICommand {
+	public method Print_(){
 		me.ICommand("print");
 	}
 
@@ -17,4 +17,4 @@ class Print extends ICommand {
 /*
  * Creo l'istanza da far caricare al gestore principale.
  */
-__cmd_instance = new Print();
+__cmd_instance = new Print_();

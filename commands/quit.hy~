@@ -1,5 +1,5 @@
 class Quit extends ICommand {
-	public method Quit(){
+	public method Help(){
 		me.ICommand("quit");
 	}
 
