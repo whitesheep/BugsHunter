@@ -30,25 +30,27 @@ class Search extends ICommand {
 				"Default exclude is " + me.var_map["exclude"], 
 				"Default dir is " + me.var_map["dir"]);
 		} 
-		else {		
-			foreach ( arg of args.split(" ") ){
-				if ( arg ~= "/[dir|ftype|exclude][^\s=]+=[^\s]+/" ){
-					( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-					me.var_map[name_var] = var;
-				}
-				else {
-					println("Invalid argument " + arg );
-					break;
+		else {	
+			if ( args != "" ) {
+				foreach ( arg of args.split(" ") ){
+					if ( arg ~= "/[dir|ftype|exclude][^\s=]+=[^\s]+/" ){
+						( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
+						me.var_map[name_var] = var;
+					}
+					else {
+						println("Invalid argument " + arg );
+						break;
+					}
 				}
 			}
 			
 			foreach ( name_var -> var of me.var_map ){
 				println(name_var + " = \"" + var + "\"");
 			}
+
+			search_ = new Search_(me.var_map["dir"]);
+			search_.all_file();
 		}
-		
-		search_ = new Search_(me.var_map["dir"]);
-		search_.all_file();
 	}
 }
 
@@ -73,7 +75,7 @@ class Search_ extends Directory {
 				old_folder = me.file_mapper(old_folder , path);
 			}
 		}
-		
+		println(me.files);
 	}
 	
 	private method file_mapper( old_folder , file ){
