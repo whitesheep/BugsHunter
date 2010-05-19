@@ -10,6 +10,11 @@ class Search extends ICommand {
 		me.vulns = [:];
 		me.var_map = ["dir" : "./" , "ftype" : ".*" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
+		
+		foreach( vulType of me.parser.read_conf("php").split(",") ){
+			me.vulns[vulType] = me.parser.read_conf(vulType);
+		}
+		
 		me.ICommand("search");
 	}
 
@@ -41,11 +46,6 @@ class Search extends ICommand {
 				println(name_var + " = \"" + var + "\"");
 			}
 		}
-		
-		foreach( vulType of me.parser.read_conf("php").split(",") ){
-			me.vulns[vulType] = me.parser.read_conf(vulType);
-		}
-		
 	}
 }
 /*
