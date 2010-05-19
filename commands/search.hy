@@ -2,6 +2,7 @@ class Search extends ICommand {
 	private var_map;
 	private parser;
 	private vulns;
+	private align_out;
 	
 	public method Search(){
 		/*
@@ -10,6 +11,7 @@ class Search extends ICommand {
 		me.vulns = [:];
 		me.var_map = ["dir" : "./" , "ftype" : ".*" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
+		me.align_out = "";
 		
 		foreach( vulType of me.parser.read_conf("php").split(",") ){
 			me.vulns[vulType] = me.parser.read_conf(vulType);
@@ -24,7 +26,7 @@ class Search extends ICommand {
 
 	public method exec( args ){
 		
-		if ( args.split(" ")[0] == "help" ){
+		if (args.split(" ")[0] == "help"){
 			me.help();
 			println("Default ftype is " + me.var_map["ftype"],
 				"Default exclude is " + me.var_map["exclude"], 
@@ -48,41 +50,22 @@ class Search extends ICommand {
 				println(name_var + " = \"" + var + "\"");
 			}
 
-			search_ = new Search_(me.var_map["dir"]);
-			search_.all_file();
-		}
-	}
-}
-
-/*
- *	Classe per la ricerca dei file 
- */
-
-class Search_ extends Directory {
-	private dir;
-	private files;
-	
-	public method Search_ ( dir ) {
-		me.dir = dir;
-		me.Directory(me.dir);
-		files = [:];
-	}
-	
-	public method all_file() {
-		foreach ( file of me ) {
-			old_folder = "";
-			foreach ( path of file.split("/") ) {
-				old_folder = me.file_mapper(old_folder , path);
+			foreach ( files of readdir(me.var_map["dir"],false) ){
+				if ( files["name"] != "." && files["name"] != ".." ){
+					println(me.align_out + files["name"]);
+					rec_files(files["name"], me.align_out);
+				}
 			}
 		}
-		println(me.files);
 	}
-	
-	private method file_mapper( old_folder , file ){
-		me.files[old_folder] = file;
-		return me.files;
-	}
-	
+	private method rec_files(dir, align){
+			foreach ( files of readdir(dir,false) ){
+				if ( files["name"] != "." && files["name"] != ".." ){
+					println(files["name"]);
+					rec_files(files["name"]);
+				}
+			}
+		}
 }
 
 
