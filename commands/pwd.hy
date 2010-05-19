@@ -1,7 +1,6 @@
 class Pwd extends ICommand {
 	public method Pwd(){
 		me.ICommand("pwd");
-		println("loaded");
 	}
 
 	public method help(){

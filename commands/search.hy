@@ -5,7 +5,7 @@ class Search extends ICommand {
 	
 	public method Search(){
 		/*
-		 *	dir: directory of 
+		 *	Search vulns in souce code 
 		 */
 		me.vulns = [:];
 		me.var_map = ["dir" : "./" , "ftype" : ".*" , "exclude" : "nothing"];
@@ -46,8 +46,44 @@ class Search extends ICommand {
 				println(name_var + " = \"" + var + "\"");
 			}
 		}
+		
+		search_ = new Search_(me.var_map["dir"]);
+		search_.all_file();
 	}
 }
+
+/*
+ *	Classe per la ricerca dei file 
+ */
+
+class Search_ extends Directory {
+	private dir;
+	private files;
+	
+	public method Search_ ( dir ) {
+		me.dir = dir;
+		me.Directory(me.dir);
+		files = [:];
+	}
+	
+	public method all_file() {
+		foreach ( file of me ) {
+			old_folder = "";
+			foreach ( path of file.split("/") ) {
+				old_folder = me.file_mapper(old_folder , path);
+			}
+		}
+		
+	}
+	
+	private method file_mapper( old_folder , file ){
+		me.files[old_folder] = file;
+		return me.files;
+	}
+	
+}
+
+
 /*
  * Creo l'istanza da far caricare al gestore principale.
  */
