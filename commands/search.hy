@@ -27,7 +27,7 @@ class Search extends ICommand {
 		} 
 		else {		
 			foreach ( arg of args.split(" ") ){
-				if ( arg ~= "/[^\s=]+=[^\s]+/" ){
+				if ( arg ~= "/[dir|ftype|exclude][^\s=]+=[^\s]+/" ){
 					( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
 					me.var_map[name_var] = var;
 				}
