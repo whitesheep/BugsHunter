@@ -3,7 +3,7 @@ class Parser {
 	private file_path;
 
 	public method Parser(file_path){
-	//	try{
+		try{
 			me.conf = [:];
 			me.file_path = file_path;
 			data = file(file_path);
@@ -20,11 +20,11 @@ class Parser {
 				( name, value ) = (line ~= "/([^\s=]+)\s*=\s*([^\s]+)/");
 				me.conf[name] = value;
 			}
-	/*	}
+		}
 		catch ( e ) {
 			println("Cannot open file.");
 		}
-	*/}
+	}
 	
 	public method _keys(){
 		return me.conf.keys();
