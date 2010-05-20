@@ -98,7 +98,7 @@ class Search extends ICommand {
 			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
 				
 				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) ){
-					println(align + align + "|>>>> line: " + i + " vuls type: \"" + vuls_type + "\" vuls : \"" + line + "\"");  
+					println(align + "|   " + "|>>>> line: \x1b[0;34m" + i + "\x1b[0m, vuls type: \"\x1b[1;37m" + vuls_type + "\x1b[0m\", vuls : \"\x1b[1;31m" + line + "\x1b[0m\"");  
 				}
 				
 			}

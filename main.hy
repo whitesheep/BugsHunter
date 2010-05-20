@@ -31,8 +31,9 @@ class BH_commands extends Directory {
 	}
 	
 	public method intro(){
-		println( "\nBugs Hunter 0.1 hybris version",
-			 "http://ihteam.net\n" );
+		//0;34 blue
+		println( "\x1b[0;34m\n\tBugs Hunter 0.1 Web Exploiting Framework",
+			 "\n\thttp://ihteam.net\n\n\x1b[0m" );
 	}
 
 	public method help(){
@@ -70,8 +71,8 @@ bh = new BH_commands();
 bh.intro();
 
 while (1){
-
-	print("\033[0;31m bugsH $> \033[0m");
+	// 0;37 light grey
+	print("\x1b[0;37mbugsH $> \x1b[0m");
 
 
 	( cmd, args ) = readline() ~= "/^([^\s]+)\s*(.*)$/";
