@@ -31,9 +31,8 @@ class BH_commands extends Directory {
 	}
 	
 	public method intro(){
-		println( "Bugs Hunter 0.1 hybris version",
-			 "coded by white_sheep & evilsocket",
-			 "http://ihteam.net" );
+		println( "\nBugs Hunter 0.1 hybris version",
+			 "http://ihteam.net\n" );
 	}
 
 	public method help(){

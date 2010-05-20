@@ -1,20 +1,20 @@
 class Search extends ICommand {
 	private var_map;
 	private parser;
-	private vulns;
+	private vulns_search;
 	private align_out;
 	
 	public method Search(){
 		/*
 		 *	Search vulns in souce code 
 		 */
-		me.vulns = [:];
-		me.var_map = ["dir" : "./" , "ftype" : "*" , "exclude" : "nothing"];
+		me.vulns_search = [:];
+		me.var_map = ["dir" : "./" , "ftype" : "php" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
 		me.align_out = "   ";
 		
 		foreach( vulType of me.parser.read_conf("php").split(",") ){
-			me.vulns[vulType] = me.parser.read_conf(vulType);
+			me.vulns_search[vulType] = me.parser.read_conf(vulType);
 		}
 		
 		me.ICommand("search");
@@ -52,8 +52,11 @@ class Search extends ICommand {
 			println("\nSearching Vulnz: ");
 			println("   " + me.var_map["dir"]);
 			me.rec_files(me.var_map["dir"], me.align_out);
+			println("");
 		}
 	}
+	
+	
 	private method rec_files(dir, align){
 		foreach ( file of readdir(dir,false) ){
 			if ( file["name"] != "." && file["name"] != ".." ){
@@ -65,17 +68,51 @@ class Search extends ICommand {
 				else {
 					
 					type = ( file["name"] ~= "/\.([^\.]+)/" );   // estenzione dei file.
-					
-					if ( me.var_map["ftype"] == "*" ){
-						println(align + "|- " + file["name"]);
+					try { 
+						if ( me.var_map["ftype"] == "*" ){
+							println(align + "|- " + file["name"]);
+							me.search_vulz(dir + "/" + file["name"], align);
+						}
+						else if ( me.var_map["ftype"] == type[0] ){
+							println(align + "|- " + file["name"]);
+							me.search_vulz(dir + "/" + file["name"], align);
+						}
 					}
-					else if ( me.var_map["ftype"] == type[0] ){
-						println(align + "|- " + file["name"]);
-					}
+					catch (e){	next;	}  // se type[0] non è dichiarato.
 				}
 			}
 		}
 		println(align + "|-----");
+	}
+	
+	private method create_regex( list ){
+		regex  = "/(";
+		foreach( pattern of list.split(",") ){
+			regex += pattern + "|";
+		}
+		regex[regex.length() - 1] = "";
+		regex += ")/";
+		return regex;
+	}
+	
+	
+	private method search_vulz(file, align){
+		i = 1;
+		data = file(file);
+		println(me.vulns_search.keys());
+		foreach( line of data.split("\n") ){
+			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
+				println(vuls_type);
+				println(align + align + me.create_regex(me.vulns_search[vuls_type]) + ")/" );
+				
+				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) + ")/" ){
+					println(align + align + "|>>>> line: " + i + " vuls: \"" + line + "\"");  
+				}
+				
+			}
+			
+			i++; //riga + 1
+		}
 	}
 }
 
