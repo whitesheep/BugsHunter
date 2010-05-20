@@ -1,7 +1,7 @@
 asd
 SELECT
 UNIOM
-INSERT
+mysqlquery("SELECT * FROM 123456");
 asd
 asd
 include

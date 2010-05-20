@@ -71,7 +71,8 @@ bh.intro();
 
 while (1){
 
-	print("[ BH ]-> " + env()["USER"] + " #: " );
+	print("\033[0;31m bugsH $> \033[0m");
+
 
 	( cmd, args ) = readline() ~= "/^([^\s]+)\s*(.*)$/";
 	

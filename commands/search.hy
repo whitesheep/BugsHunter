@@ -46,8 +46,8 @@ class Search extends ICommand {
 				}
 			}
 			
-			foreach ( name_var -> var of me.var_map ){
-				println(name_var + " = \"" + var + "\"");
+			foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
+				println(name_var + " = \"" + var + "\"");			// del suo contenuto
 			}
 			println("\nSearching Vulnz: ");
 			println("   " + me.var_map["dir"]);
@@ -57,22 +57,22 @@ class Search extends ICommand {
 	}
 	
 	
-	private method rec_files(dir, align){
+	private method rec_files(dir, align){         						 // metodo ricorsivo per la ricerca di tutti i file e il print in output a mo di albero
 		foreach ( file of readdir(dir,false) ){
 			if ( file["name"] != "." && file["name"] != ".." ){
 				if ( file["type"] == 4 ){
 					println(align + "|+ " + file["name"]);
-					tmp_align = "   |" + align; 
+					tmp_align = "   |" + align;  				// allineamento per l'albero
 					me.rec_files(dir + "/" + file["name"], tmp_align);
 				}
 				else {
 					
-					type = ( file["name"] ~= "/\.([^\.]+)/" );   // estenzione dei file.
+					type = ( file["name"] ~= "/\.([^\.]+)/" );   		// estenzione dei file.
 					try { 
 						if ( me.var_map["ftype"] == "*" ){
 							println(align + "|- " + file["name"]);
-							me.search_vulz(dir + "/" + file["name"], align);
-						}
+							me.search_vulz(dir + "/" + file["name"], align);		// ricorsione su mestesso, con 
+						}									// passaggio nome file e allineamento
 						else if ( me.var_map["ftype"] == type[0] ){
 							println(align + "|- " + file["name"]);
 							me.search_vulz(dir + "/" + file["name"], align);
@@ -85,28 +85,20 @@ class Search extends ICommand {
 		println(align + "|-----");
 	}
 	
-	private method create_regex( list ){
-		regex  = "/(";
-		foreach( pattern of list.split(",") ){
-			regex += pattern + "|";
-		}
-		regex[regex.length() - 1] = "";
-		regex += ")/";
+	private method create_regex( list ){       						// metodo per creare dinamicamente le regex.
+		regex  = "/.*(" + list.split(",").join("|") + ").*/";
 		return regex;
 	}
 	
 	
-	private method search_vulz(file, align){
+	private method search_vulz(file, align){        					// metodo di ricerca dei bug nei file.
 		i = 1;
 		data = file(file);
-		println(me.vulns_search.keys());
 		foreach( line of data.split("\n") ){
 			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
-				println(vuls_type);
-				println(align + align + me.create_regex(me.vulns_search[vuls_type]) + ")/" );
 				
-				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) + ")/" ){
-					println(align + align + "|>>>> line: " + i + " vuls: \"" + line + "\"");  
+				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) ){
+					println(align + align + "|>>>> line: " + i + " vuls type: \"" + vuls_type + "\" vuls : \"" + line + "\"");  
 				}
 				
 			}
