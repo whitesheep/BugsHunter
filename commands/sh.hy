@@ -1,7 +1,6 @@
 class Sh extends ICommand {
 	public method Sh(){
 		me.ICommand("sh");
-		println("loaded");
 	}
 
 	public method help(){
