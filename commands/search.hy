@@ -11,7 +11,7 @@ class Search extends ICommand {
 		me.vulns = [:];
 		me.var_map = ["dir" : "./" , "ftype" : ".*" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
-		me.align_out = "";
+		me.align_out = "| ";
 		
 		foreach( vulType of me.parser.read_conf("php").split(",") ){
 			me.vulns[vulType] = me.parser.read_conf(vulType);
@@ -49,23 +49,24 @@ class Search extends ICommand {
 			foreach ( name_var -> var of me.var_map ){
 				println(name_var + " = \"" + var + "\"");
 			}
-
-			foreach ( files of readdir(me.var_map["dir"],false) ){
-				if ( files["name"] != "." && files["name"] != ".." ){
-					println(me.align_out + files["name"]);
-					rec_files(files["name"], me.align_out);
+			println("|-" + me.var_map["dir"]);
+			me.rec_files(me.var_map["dir"], me.align_out);
+		}
+	}
+	private method rec_files(dir, align){
+		foreach ( files of readdir(dir,false) ){
+			if ( files["name"] != "." && files["name"] != ".." ){
+				if ( files["type"] == 4 ){
+					println(align + "|-" + files["name"]);
+					tmp_align = "| " + align; 
+					me.rec_files(dir + "/" + files["name"], tmp_align);
+				}
+				else {
+					println(align + "|-" +files["name"]);
 				}
 			}
 		}
 	}
-	private method rec_files(dir, align){
-			foreach ( files of readdir(dir,false) ){
-				if ( files["name"] != "." && files["name"] != ".." ){
-					println(files["name"]);
-					rec_files(files["name"]);
-				}
-			}
-		}
 }
 
 
