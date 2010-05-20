@@ -9,7 +9,7 @@ class Search extends ICommand {
 		 *	Search vulns in souce code 
 		 */
 		me.vulns = [:];
-		me.var_map = ["dir" : "./" , "ftype" : ".*" , "exclude" : "nothing"];
+		me.var_map = ["dir" : "./" , "ftype" : "*" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
 		me.align_out = "   ";
 		
@@ -55,15 +55,23 @@ class Search extends ICommand {
 		}
 	}
 	private method rec_files(dir, align){
-		foreach ( files of readdir(dir,false) ){
-			if ( files["name"] != "." && files["name"] != ".." ){
-				if ( files["type"] == 4 ){
-					println(align + "|+ " + files["name"]);
+		foreach ( file of readdir(dir,false) ){
+			if ( file["name"] != "." && file["name"] != ".." ){
+				if ( file["type"] == 4 ){
+					println(align + "|+ " + file["name"]);
 					tmp_align = "   |" + align; 
-					me.rec_files(dir + "/" + files["name"], tmp_align);
+					me.rec_files(dir + "/" + file["name"], tmp_align);
 				}
 				else {
-					println(align + "|- " +files["name"]);
+					
+					type = ( file["name"] ~= "/\.([^\.]+)/" );   // estenzione dei file.
+					
+					if ( me.var_map["ftype"] == "*" ){
+						println(align + "|- " + file["name"]);
+					}
+					else if ( me.var_map["ftype"] == type[0] ){
+						println(align + "|- " + file["name"]);
+					}
 				}
 			}
 		}
