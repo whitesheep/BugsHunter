@@ -69,7 +69,7 @@ class BH_commands extends Directory {
 	
 	
 	public method ascii_art(){ 
-		random = `"echo $(($RANDOM%4+1))"`;
+		random = `"echo $(($RANDOM%5+1))"`;
 		switch (random){
 			case "1\n":
 				println("\x1b[34m\n\t\t  __                                              ",
@@ -103,6 +103,19 @@ class BH_commands extends Directory {
 					"\t\t             (__)\       )\/",
 					"\t\t                 ||----w |",
 					"\t\t                 ||     ||\x1b[0m");
+			break;
+			
+			case "5\n":
+				println("\x1b[34m\n\t\t      < BugsH ! >",
+					"\t\t    ---------------",
+					"\t\t        \\\\           __  _   ",
+					"\t\t         \\\\      .-:'  `; `-._",
+					"\t\t          \\\\     (_,           )",
+					"\t\t           \\\\  ,'o\"(            )>",
+					"\t\t            \ (__,-'            )",
+					"\t\t                 (             )",
+					"\t\t                  `-'._.--._.-'",
+					"\t\t                     |||  |||");
 			break;
 		}
 	}

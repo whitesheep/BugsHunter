@@ -4,5 +4,5 @@ UNIOM
 mysqlquery("SELECT * FROM 123456");
 asd
 asd
-include
+include(asdasd);
 ciao & ciao

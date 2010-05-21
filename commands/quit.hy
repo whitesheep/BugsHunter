@@ -8,7 +8,8 @@ class Quit extends ICommand {
 	}
 
 	public method exec( args ){
-		exit( println(" Bye :) ") );
+		exit( println("\t\t\t\t\t\t\t\t\t\t\t\x1b[0;37m ,---@>  --| < mbe`!? > | ",
+			      "\t\t\t\t\t\t\t\t\t\t\t  W-W'\x1b[0m") );
 	}
 }
 /*

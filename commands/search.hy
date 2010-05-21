@@ -35,7 +35,7 @@ class Search extends ICommand {
 		else {	
 			if ( args != "" ) {
 				foreach ( arg of args.split(" ") ){
-					if ( arg ~= "/[dir|ftype|exclude][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
+					if ( arg ~= "/^[dir|ftype|exclude][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
 						( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
 						me.var_map[name_var] = var;
 					}
@@ -85,21 +85,25 @@ class Search extends ICommand {
 		}
 		println(align + "|-----");
 	}
-	
-	private method create_regex( list ){       						// metodo per creare dinamicamente le regex.
-		regex  = "/.*(" + list.split(",").join("|") + ").*/";
-		return regex;
-	}
+
 	
 	
 	private method search_vulz(file, align){        					// metodo di ricerca dei bug nei file.
 		i = 1;
 		data = file(file);
+		
+		
+		
 		foreach( line of data.split("\n") ){
 			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
 				
-				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) ){
-					println(align + "|   " + "|>>>> line: \x1b[0;34m" + i + "\x1b[0m, vuls type: \"\x1b[1;37m" + vuls_type + "\x1b[0m\", vuls : \"\x1b[1;31m" + line + "\x1b[0m\"");  
+				regex_search  = "/.*(" + me.vulns_search[vuls_type].split(",").join("|") + ").*/";			// regex per la ricerca di vulnz
+				
+				regex_show = "/(\s.*|.|)(" + me.vulns_search[vuls_type].split(",").join("|") + ")(.*\s|.*|.|)/i";			// regex per la visualizzazione della riga    "/(.*|)(SELECT|include)(.*\s)(\"|\'|)/"
+				
+				
+				if ( line ~= regex_search ){
+					println(align + "|   " + "|>>>> line: \x1b[0;34m" + i + "\x1b[0m, vuls type: \"\x1b[1;37m" + vuls_type + "\x1b[0m\", vuls : \"\x1b[1;31m ... " + ( line ~= regex_show ).join("") + " ... \x1b[0m\"");  
 				}
 				
 			}
