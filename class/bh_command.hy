@@ -69,9 +69,9 @@ class BH_commands extends Directory {
 	
 	
 	public method ascii_art(){ 
-		random = `"echo $(($RANDOM%5+1))"`;
+		random = `"echo $(($RANDOM%5+1))"`.trim();
 		switch (random){
-			case "1\n":
+			case "1":
 				println("\x1b[34m\n\t\t  __                                              ",
 					"\t\t|/  |                /  |           /             ",
 					"\t\t|___|      ___  ___ (___|      ___ (___  ___  ___ ",
@@ -80,14 +80,14 @@ class BH_commands extends Directory {
 					"\t\t          __/                                     \x1b[0m");
 			break;
 			
-			case "2\n":
+			case "2":
 				println("\x1b[34m\n\t\t.__          .  .       ,       ",
 					"\t\t[__). . _  __|__|. .._ -+- _ ._.",
 					"\t\t[__)(_|(_]_) |  |(_|[ ) | (/,[  ",
 					"\t\t       ._|                      \x1b[0m");
 			break;
 			
-			case "3\n":
+			case "3":
 				println("\x1b[34m\n\t\t ___              _  _          _           ",
 					"\t\t| _ )_  _ __ _ __| || |_  _ _ _| |_ ___ _ _ ",
 					"\t\t| _ \ || / _` (_-< __ | || | ' \  _/ -_) '_|",
@@ -95,7 +95,7 @@ class BH_commands extends Directory {
 					"\t\t         |___/                              \x1b[0m");
 			break;
 			
-			case "4\n":
+			case "4":
 				println("\x1b[34m\n\t\t      < BuuuuuugsHunter! >",
 					"\t\t  -------------------------- ",
 					"\t\t         \   ^__^",
@@ -105,7 +105,7 @@ class BH_commands extends Directory {
 					"\t\t                 ||     ||\x1b[0m");
 			break;
 			
-			case "5\n":
+			case "5":
 				println("\x1b[34m\n\t\t      < BugsH ! >",
 					"\t\t    ---------------",
 					"\t\t        \\\\           __  _   ",
