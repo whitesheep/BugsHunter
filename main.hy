@@ -1,8 +1,8 @@
 import  std.*;
 include std.io.Directory;
-include icommand;
-include Parser;
-include bh_command;
+include class/icommand;
+include class/Parser;
+include class/bh_command;
 
 
 bh = new BH_commands();
