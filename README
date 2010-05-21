@@ -1,7 +1,22 @@
-BugsHunter v0.1 Hybris Version ( interactive mode )
-white_sheep & evilsocket
+      < BuuuuuugsHunter! >
+  -------------------------- 
+         \   ^__^
+          \  (oo)\_______
+             (__)\       )\/\
+                 ||----w |
+                 ||     ||
 
 
+	BugsHunter v0.1 Web Exploiting Framework
+	
+	It help you to find and try web vulnerabilities.
+	
+	
+Commands:
 
-
-Help For finding vulnerabilities in source code.
+	pwd 					-> 	Print Working Directory.
+	edit					->	Open Xterm with your favourite editor.
+	sh					->	Launch sh commands.
+	search					->	Search vulnz in source code.
+	tree					->	Show all files in a tree view.
+	quit					->	Quit.
