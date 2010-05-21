@@ -1,27 +1,21 @@
-class Search extends ICommand {
+class Tree extends ICommand {
 	private var_map;
-	private parser;
-	private vulns_search;
+	private tree_search;
 	private align_out;
 	
-	public method Search(){
+	public method Tree(){
 		/*
-		 *	Search vulns in souce code 
+		 *	Show File in Treeeee 
 		 */
-		me.vulns_search = [:];
-		me.var_map = ["dir" : "./" , "ftype" : "php" , "exclude" : "nothing"];
-		me.parser = new Parser("bh.conf");
+		me.tree_search = [:];
+		me.var_map = ["dir" : "./" , "ftype" : "php" ];
 		me.align_out = "   ";
 		
-		foreach( vulType of me.parser.read_conf("php").split(",") ){
-			me.vulns_search[vulType] = me.parser.read_conf(vulType);
-		}
-		
-		me.ICommand("search");
+		me.ICommand("tree");
 	}
 
 	public method help(){
-		println("* search dir=\"path\" [ ftype=FileExtenction ] [ exclude=PatternToExclude ]\tsearch pattern in all founded file");
+		println("* search dir=\"path\" [ ftype=FileExtenction ] \t\t\t\t\tshow files in a tree");
 	}
 
 	public method exec( args ){
@@ -29,13 +23,12 @@ class Search extends ICommand {
 		if (args.split(" ")[0] == "help"){
 			me.help();
 			println("Default ftype is " + me.var_map["ftype"],
-				"Default exclude is " + me.var_map["exclude"], 
 				"Default dir is " + me.var_map["dir"]);
 		} 
 		else {	
 			if ( args != "" ) {
 				foreach ( arg of args.split(" ") ){
-					if ( arg ~= "/[dir|ftype|exclude][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
+					if ( arg ~= "/[dir|ftype][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
 						( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
 						me.var_map[name_var] = var;
 					}
@@ -50,7 +43,7 @@ class Search extends ICommand {
 			foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
 				println(name_var + " = \"" + var + "\"");			// del suo contenuto
 			}
-			println("\nSearching Vulnz: ");
+			println("\nFiles: ");
 			println("   " + me.var_map["dir"]);
 			me.rec_files(me.var_map["dir"], me.align_out);
 			println("");
@@ -72,11 +65,11 @@ class Search extends ICommand {
 					try { 
 						if ( me.var_map["ftype"] == "*" ){
 							println(align + "|- " + file["name"]);
-							me.search_vulz(dir + "/" + file["name"], align);		// ricorsione su mestesso, con 
-						}									// passaggio nome file e allineamento
+							
+						}									
 						else if ( me.var_map["ftype"] == type[0] ){
 							println(align + "|- " + file["name"]);
-							me.search_vulz(dir + "/" + file["name"], align);
+							
 						}
 					}
 					catch (e){	next;	}  // se type[0] non è dichiarato.
@@ -85,32 +78,11 @@ class Search extends ICommand {
 		}
 		println(align + "|-----");
 	}
-	
-	private method create_regex( list ){       						// metodo per creare dinamicamente le regex.
-		regex  = "/.*(" + list.split(",").join("|") + ").*/";
-		return regex;
-	}
-	
-	
-	private method search_vulz(file, align){        					// metodo di ricerca dei bug nei file.
-		i = 1;
-		data = file(file);
-		foreach( line of data.split("\n") ){
-			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
-				
-				if ( line ~= me.create_regex(me.vulns_search[vuls_type]) ){
-					println(align + "|   " + "|>>>> line: \x1b[0;34m" + i + "\x1b[0m, vuls type: \"\x1b[1;37m" + vuls_type + "\x1b[0m\", vuls : \"\x1b[1;31m" + line + "\x1b[0m\"");  
-				}
-				
-			}
-			
-			i++; //riga + 1
-		}
-	}
 }
 
 
 /*
  * Creo l'istanza da far caricare al gestore principale.
  */
-__cmd_instance = new Search();
+__cmd_instance = new Tree();
+ 
