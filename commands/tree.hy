@@ -15,7 +15,7 @@ class Tree extends ICommand {
 	}
 
 	public method help(){
-		println("* search dir=\"path\" [ ftype=FileExtenction ] \t\t\t\t\tshow files in a tree");
+		println("* tree [ dir=<path> ] [ ftype=FileExtenction ] \t\t\t\t\tshow files in a tree");
 	}
 
 	public method exec( args ){

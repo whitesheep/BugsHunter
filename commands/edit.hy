@@ -7,7 +7,7 @@ class Edit extends ICommand {
 	}
 
 	public method help(){
-		println( "* edit\t\t\t\t\t\t\t\t\t\tedit a specific file" );
+		println( "* edit <file>\t\t\t\t\t\t\t\t\tedit a specific file" );
 	}
 
 	public method exec( args ){

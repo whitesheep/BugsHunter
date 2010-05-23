@@ -25,7 +25,7 @@ class BH_commands extends Directory {
 		me.intro();
 		println("All commands: ",
 			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
-			"* import\t\t\t\t\t\t\t\t\timport external plugin");
+			"* import_plugins <file>\t\t\t\t\t\t\t\timport external plugin");
 		foreach( name -> cmd of me.commands ){
 			cmd.help();
 		}
@@ -36,6 +36,7 @@ class BH_commands extends Directory {
 	}
 
 	public method exec( cmd, args ){
+		
 		if( me.commands.has(cmd) ){
 			return me.commands[cmd].exec(args);
 		}
@@ -47,7 +48,7 @@ class BH_commands extends Directory {
 					me.help();
 				break;
 				
-				case "import" :
+				case "import_plugins" :
 					me.import(args);
 				break;
 				

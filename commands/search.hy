@@ -21,7 +21,7 @@ class Search extends ICommand {
 	}
 
 	public method help(){
-		println("* search dir=\"path\" [ ftype=FileExtenction ] [ exclude=PatternToExclude ]\tsearch pattern in all founded file");
+		println("* search [ dir=<path> ] [ ftype=FileExtenction ] [ exclude=PatternToExclude ]\tsearch pattern in all founded file");
 	}
 
 	public method exec( args ){
