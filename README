@@ -17,6 +17,7 @@ Commands:
 	pwd 					-> 	Print Working Directory.
 	edit					->	Open Xterm with your favourite editor.
 	sh					->	Launch sh commands.
+	set 					->	Set variables in conf file.
 	search					->	Search vulnz in source code.
 	tree					->	Show all files in a tree view.
 	quit					->	Quit.
