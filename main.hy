@@ -14,8 +14,7 @@ while (1){
 		
 	// 0;37 light grey
 
-	print("\x1b[0;37mbugsH $> \x1b[0m");
-
+	print("\033[0;37mbugsH $> \033[0m");
 
 	( cmd, args ) = readline() ~= "/^([^\s]+)\s*(.*)$/";
 	

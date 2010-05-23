@@ -1,6 +1,9 @@
 class Set extends ICommand {
+	private parser;
+	
 	public method Set(){
 		me.ICommand("set");
+		me.parser = new Parser("bh.conf");
 	}
 
 	public method help(){
@@ -8,7 +11,6 @@ class Set extends ICommand {
 	}
 
 	public method exec( args ){
-		parser = new Parser("bh.conf");
 		if (args.split(" ")[0] == "help"){
 			me.help();
 		} 
@@ -17,7 +19,7 @@ class Set extends ICommand {
 				foreach ( arg of args.split(" ") ){
 					if ( arg ~= "/[^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
 						( name, value ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-						parser.set_conf(name ,value);
+						me.parser.set_conf(name ,value);
 					}
 					else if ( arg != "" ){
 						println("Invalid argument " + arg );
@@ -26,7 +28,7 @@ class Set extends ICommand {
 					}
 				}
 			}
-			parser.write_conf();
+			me.parser.write_conf();
 		}
 	}
 }

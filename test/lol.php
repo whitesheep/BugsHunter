@@ -1,7 +1,7 @@
 asd
 SELECT
 UNIOM
-mysqlquery("SELECT * FROM 123456");
+mysql_query("SELECT * FROM". $_GET[lol]);
 asd
 asd
 include(asdasd);

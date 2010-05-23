@@ -3,12 +3,14 @@ class Search extends ICommand {
 	private parser;
 	private vulns_search;
 	private align_out;
+	private vulns_vars;
 	
 	public method Search(){
 		/*
 		 *	Search vulns in souce code 
 		 */
 		me.vulns_search = [:];
+		
 		me.var_map = ["dir" : "./" , "ftype" : "php" , "exclude" : "nothing"];
 		me.parser = new Parser("bh.conf");
 		me.align_out = "   ";
@@ -16,6 +18,8 @@ class Search extends ICommand {
 		foreach( vulType of me.parser.read_conf("php").split(",") ){
 			me.vulns_search[vulType] = me.parser.read_conf(vulType);
 		}
+		
+		me.vulns_vars = me.parser.read_conf("php_vars");
 		
 		me.ICommand("search");
 	}
@@ -97,15 +101,19 @@ class Search extends ICommand {
 		foreach( line of data.split("\n") ){
 			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
 				
-				regex_search  = "/.*(" + me.vulns_search[vuls_type].split(",").join("|") + ").*/";			// regex per la ricerca di vulnz
 				
-				regex_show = "/(\s.*|.|)(" + me.vulns_search[vuls_type].split(",").join("|") + ")(.*\s|.*|.|)/i";			// regex per la visualizzazione della riga    "/(.*|)(SELECT|include)(.*\s)(\"|\'|)/"
+				vars = me.vulns_vars.replace(",", "|"); //.replace("$", "\$")
+				regex_search_critical = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*(" + vars + ")/i";			// regex per la ricerca di vulnz
+				regex_search_medium = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*\$/i";
+				
+				regex_show = "/(\s|\"|\;)(.+)(" + me.vulns_search[vuls_type].replace(",", "|") + ")(.+)(\s|\"|\;)/i";			// regex per la visualizzazione della riga 
 				
 				
-				if ( line ~= regex_search ){
-					println(align + "|   " + "|>>>> line: \x1b[0;34m" + i + "\x1b[0m, vuls type: \"\x1b[1;37m" + vuls_type + "\x1b[0m\", vuls : \"\x1b[1;31m ... " + ( line ~= regex_show ).join("") + " ... \x1b[0m\"");  
+				if ( line ~= regex_search_critical ){
+					println(align + "|   " + "|>>>> line: \033[0;34m" + i + "\033[0m, vuls type: \"\033[1;37m" + vuls_type + "\033[0m\", level: \"\033[4;31mcritical\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show ).join("").trim() + " ... \033[0m\"");  
+				} else if ( line ~= regex_search_medium ){
+					println(align + "|   " + "|>>>> line: \033[4;34m" + i + "\033[0m, vuls type: \"\033[4;37m" + vuls_type + "\033[0m\", level: \"\033[4;32mmedium\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show )[1].trim() + ( line ~= regex_show )[2].trim() + ( line ~= regex_show )[3].trim() + " ... \033[0m\"");  
 				}
-				
 			}
 			
 			i++; //riga + 1

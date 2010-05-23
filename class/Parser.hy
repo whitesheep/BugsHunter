@@ -78,11 +78,19 @@ class Parser {
 	}
 	
 	public method read_conf( name ){
-		return me.conf[name];
+		if ( me.conf.has(name) ){
+			return me.conf[name];
+		} else {
+			println( name + " : Parameter not found" );
+		}
 	}
 	
 	public method __attribute( name ){
-		return me.conf[name];
+		if ( me.conf.has(name) ){
+			return me.conf[name];
+		} else {
+			println( name + " : Parameter not found" );
+		}
 	}
     
 	public method __attribute( name, value ){
