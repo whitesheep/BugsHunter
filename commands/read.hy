@@ -7,14 +7,14 @@ class Read extends ICommand {
 	}
 
 	public method help(){
-		println( "* read <variable>\t\t\t\t\t\t\t\t\tread variable from config file" );
+		println( "* read <variable>\t\t\t\t\t\t\t\tread variable from config file" );
 	}
 
 	public method exec( args ){
 		if (args.split(" ")[0] == "help"){
 			me.help();
 		} else {
-			me.parser.read_conf(args);
+			println(me.parser.read_conf(args));
 		}
 	}
 }

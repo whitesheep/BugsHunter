@@ -14,9 +14,8 @@ while (1){
 		
 	// 0;37 light grey
 
-	print("\033[0;37mbugsH $> \033[0m");
 
-	( cmd, args ) = readline() ~= "/^([^\s]+)\s*(.*)$/";
+	( cmd, args ) = readline("\033[0;37mbugsH $> \033[0m") ~= "/^([^\s]+)\s*(.*)$/";
 	
 	output = bh.exec( cmd, args );
 	

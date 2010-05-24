@@ -92,27 +92,24 @@ class Search extends ICommand {
 
 	
 	
-	private method search_vulz(file, align){        					// metodo di ricerca dei bug nei file.
+	private method search_vulz(file, align){   			// metodo di ricerca dei bug nei file.
 		i = 1;
 		data = file(file);
-		
-		
 		
 		foreach( line of data.split("\n") ){
 			foreach ( vuls_type of me.vulns_search.keys() ){      //foreach per tutte le tipologie di vulnerabilità settate nel file di configurazuone.
 				
 				
-				vars = me.vulns_vars.replace(",", "|"); //.replace("$", "\$")
-				regex_search_critical = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*(" + vars + ")/i";			// regex per la ricerca di vulnz
-				regex_search_medium = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*\$/i";
+				vars = me.vulns_vars.replace(",", "|").replace("$", "\$");				
+				regex_search_critical = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*(" + vars + ")/i";			// regex per la ricerca di vulnz tipo critiche ( trova anche quelle inserite nel file di configurazuone )
+				regex_search_medium = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*\$/i";				// regex per la ricerca di vulnz tipo medie ( controlla se ci sono inserimento variabili )
 				
-				regex_show = "/(\s|\"|\;)(.+)(" + me.vulns_search[vuls_type].replace(",", "|") + ")(.+)(\s|\"|\;)/i";			// regex per la visualizzazione della riga 
-				
-				
+				regex_show = "/(.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?)(" + me.vulns_search[vuls_type].replace(",", "|") + ")(.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?.?)/i";			// regex per la visualizzazione della riga  
+				//println(regex_show);
 				if ( line ~= regex_search_critical ){
-					println(align + "|   " + "|>>>> line: \033[0;34m" + i + "\033[0m, vuls type: \"\033[1;37m" + vuls_type + "\033[0m\", level: \"\033[4;31mcritical\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show ).join("").trim() + " ... \033[0m\"");  
+					println(align + "|   |>>>> line: \033[0;34m" + i + "\033[0m, vuls type: \"\033[1;37m" + vuls_type + "\033[0m\", level: \"\033[4;31mcritical\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show ).join("").trim() + " ... \033[0m\"");  
 				} else if ( line ~= regex_search_medium ){
-					println(align + "|   " + "|>>>> line: \033[4;34m" + i + "\033[0m, vuls type: \"\033[4;37m" + vuls_type + "\033[0m\", level: \"\033[4;32mmedium\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show )[1].trim() + ( line ~= regex_show )[2].trim() + ( line ~= regex_show )[3].trim() + " ... \033[0m\"");  
+					println(align + "|   |>>>> line: \033[4;34m" + i + "\033[0m, vuls type: \"\033[4;37m" + vuls_type + "\033[0m\", level: \"\033[4;32mmedium\033[0m\", vuls : \"\033[1;31m ... " + ( line ~= regex_show ).join("").trim() + " ... \033[0m\"");  
 				}
 			}
 			
