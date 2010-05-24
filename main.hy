@@ -3,6 +3,7 @@ include std.io.Directory;
 include class/icommand;
 include class/Parser;
 include class/bh_command;
+include std.io.network.tcp.ServerSocket;
 
 
 bh = new BH_commands();

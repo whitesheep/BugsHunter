@@ -9,8 +9,6 @@ editor = nano
 http_server_path = ./www
 http_server_port = 8040
 
-
-
 # Source code type = pattern
 php = SqlInj,FileIncl_php,CmdExec_php,XSS_php
 php_vars = $_GET,$_POST,$_COOKIE,$_REQUEST
