@@ -1,13 +1,15 @@
 class Http_server extends ICommand {
 	private parser;
+	private http_class;
 	
 	public method Http_server(){
 		me.ICommand("http_server");
 		me.parser = new Parser("bh.conf");
+		me.http_class = new Http_class(me.parser.http_server_port, me.parser.http_server_path);
 	}
 
 	public method help(){
-		println( "* http_server\t\t\t\t\t\t\t\t\tstart http server" );
+		println( "* http_server [start|stop|status]\t\t\t\t\t\tstart http server" );
 	}
 
 	public method exec( args ){
@@ -15,30 +17,50 @@ class Http_server extends ICommand {
 		switch ( args ){
 			
 			case "start":
-				http_class = new Http_class(me.parser.http_server_port, me.parser.http_server_path);
+				println("Http server start");
+				me.http_class.start();
 			break;
 			
 			case "stop":
-				a="1";
+				println("Http server start");
+				me.http_class.stop();
+			break;
+			
+			case "status":
+				a=1;
 			break;
 			
 			default:
+				println("Invalid argument " + args);
 			break;
 		}
 		
 	}
 }
 
-class Http_class {
+class Http_class extends Runnable{
 	public port;
 	public path;
+	public response;
 	
 	public method Http_class(port, path){
-	      ss = new ServerSocket( 8040, "me.acceptor_thread" );
-	      ss.start();
+		
 	}
 	
-	private method acceptor_thread( s ){
+	public method start(){
+		
+
+	}
+	
+	public method stop(){
+		
+	}
+	
+	private method run( port ){
+		me.response = server( port );
+	}
+	
+	private method http_response( s ){
 		println( "New client thread started + " );
 		line = "";
 		page = "";
@@ -73,3 +95,35 @@ class Http_class {
  * Creo l'istanza da far caricare al gestore principale.
  */
 __cmd_instance = new Http_server();
+
+
+
+
+
+/*
+
+include std.os.Runner;
+
+class Prova extends Runnable { 
+	public method run( n ){
+		println( "Hello " + n );
+	}
+}
+
+try{
+	runner = new Runner( new Prova() );
+
+	foreach( i of 1..100 ){
+		runner.go( i );	
+	}
+
+	runner.join();
+	
+	println(runner);
+}
+catch( e ){
+	println(e);
+}
+
+// http://github.com/evilsocket/hybris/blob/master/stdinc/std/io/network/tcp/ServerSocket.hy
+*/
