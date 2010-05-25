@@ -4,6 +4,7 @@ include class/icommand;
 include class/Parser;
 include class/bh_command;
 include std.io.network.tcp.Socket;
+include std.os.Runner;
 
 
 bh = new BH_commands();

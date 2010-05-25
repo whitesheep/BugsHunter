@@ -1,6 +1,7 @@
 class Http_server extends ICommand {
 	private parser;
 	private http_class;
+	private sd;
 	
 	public method Http_server(){
 		me.ICommand("http_server");
@@ -18,12 +19,22 @@ class Http_server extends ICommand {
 			
 			case "start":
 				println("Http server start");
-				me.http_class.start();
+				runner = new Runner( new Http_class() );
+				me.sd = server( 8040);
+				if( me.sd <= 0 ){
+					return false;
+				}
+
+				while( (csd = accept(me.sd)) > 0 ){
+					runner.go( new Socket(csd) );
+				}
+				runner.join();
+				return true;
 			break;
 			
 			case "stop":
 				println("Http server start");
-				me.http_class.stop();
+				
 			break;
 			
 			case "status":
@@ -43,24 +54,7 @@ class Http_class extends Runnable{
 	public path;
 	public response;
 	
-	public method Http_class(port, path){
-		
-	}
-	
-	public method start(){
-		
-
-	}
-	
-	public method stop(){
-		
-	}
-	
-	private method run( port ){
-		me.response = server( port );
-	}
-	
-	private method http_response( s ){
+	private method run( s ){
 		println( "New client thread started + " );
 		line = "";
 		page = "";
@@ -84,11 +78,13 @@ class Http_class extends Runnable{
 					s.write( "HTTP/1 + 1 404 Not Found\r\n" +
 					"Content-Length: 3\r\n\r\nlol" );
 				}
-				pthread_exit();
+				break;
 			}
 		}
-		pthread_exit();
+		break;
 	}
+	
+	
 }
 
 /*
@@ -96,6 +92,12 @@ class Http_class extends Runnable{
  */
 __cmd_instance = new Http_server();
 
+
+/*
+private method http_response( s ){
+		
+	}
+	*/
 
 
 
