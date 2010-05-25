@@ -41,6 +41,10 @@ class Http_server extends ICommand {
 				a=1;
 			break;
 			
+			case "help":
+				me.help();
+			break;
+			
 			default:
 				println("Invalid argument " + args);
 			break;

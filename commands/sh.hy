@@ -8,6 +8,10 @@ class Sh extends ICommand {
 	}
 
 	public method exec( args ){
+		if (args.split(" ")[0] == "help"){
+			me.help();
+			return true;
+		}
 		return `args`;
 	}
 }

@@ -13,23 +13,23 @@ class Set extends ICommand {
 	public method exec( args ){
 		if (args.split(" ")[0] == "help"){
 			me.help();
+			return true;
 		} 
-		else {	
-			if ( args != "" ) {
-				foreach ( arg of args.split(" ") ){
-					if ( arg ~= "/[^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
-						( name, value ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-						me.parser.set_conf(name ,value);
-					}
-					else if ( arg != "" ){
-						println("Invalid argument " + arg );
-						break;
-						
-					}
+		
+		if ( args != "" ) {
+			foreach ( arg of args.split(" ") ){
+				if ( arg ~= "/[^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
+					( name, value ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
+					me.parser.set_conf(name ,value);
+				}
+				else if ( arg != "" ){
+					println("Invalid argument " + arg );
+					break;
+					
 				}
 			}
-			me.parser.write_conf();
 		}
+		me.parser.write_conf();
 	}
 }
 /*

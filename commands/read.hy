@@ -13,9 +13,10 @@ class Read extends ICommand {
 	public method exec( args ){
 		if (args.split(" ")[0] == "help"){
 			me.help();
-		} else {
-			println(me.parser.read_conf(args));
-		}
+			return true;
+		} 
+		
+		println(me.parser.read_conf(args));
 	}
 }
 /*

@@ -35,38 +35,38 @@ class Search extends ICommand {
 			println("Default ftype is " + me.var_map["ftype"],
 				"Default exclude is " + me.var_map["exclude"], 
 				"Default dir is " + me.var_map["dir"]);
+			return true;
 		} 
-		else {	
-			if ( args != "" ) {
-				foreach ( arg of args.split(" ") ){
-					if ( arg ~= "/^[dir|ftype|level][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
-						( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-						me.var_map[name_var] = var;
-					}
-					else if ( arg != "" ){
-						println("Invalid argument " + arg );
-						return false;
-						
-					}
+			
+		if ( args != "" ) {
+			foreach ( arg of args.split(" ") ){
+				if ( arg ~= "/^[dir|ftype|level][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
+					( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
+					me.var_map[name_var] = var;
+				}
+				else if ( arg != "" ){
+					println("Invalid argument " + arg );
+					return false;
+					
 				}
 			}
-			
-			if ( me.var_map["level"] ~= "/^(all|critical)/" ) {
-				print("");
-			} else {
-				println("Invalid level " + me.var_map["level"] );
-				me.var_map["level"] = "all";
-				return false;
-			}
-			
-			foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
-				println(name_var + " = \"" + var + "\"");			// del suo contenuto
-			}
-			println("\nSearching Vulnz: ");
-			println("   " + me.var_map["dir"]);
-			me.rec_files(me.var_map["dir"], me.align_out);
-			println("");
 		}
+		
+		if ( me.var_map["level"] ~= "/^(all|critical)/" ) {
+			print("");
+		} else {
+			println("Invalid level " + me.var_map["level"] );
+			me.var_map["level"] = "all";
+			return false;
+		}
+		
+		foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
+			println(name_var + " = \"" + var + "\"");			// del suo contenuto
+		}
+		println("\nSearching Vulnz: ");
+		println("   " + me.var_map["dir"]);
+		me.rec_files(me.var_map["dir"], me.align_out);
+		println("");
 	}
 	
 	

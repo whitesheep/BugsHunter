@@ -11,6 +11,12 @@ class Edit extends ICommand {
 	}
 
 	public method exec( args ){
+		
+		if (args.split(" ")[0] == "help"){
+			me.help();
+			return true;
+		} 
+		
 		if( fork() == 0 ){
 			`"xterm -e \"" + me.parser.editor + " " + args + "\""`
 		}

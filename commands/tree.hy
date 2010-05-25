@@ -24,30 +24,30 @@ class Tree extends ICommand {
 			me.help();
 			println("Default ftype is " + me.var_map["ftype"],
 				"Default dir is " + me.var_map["dir"]);
+			return true;
 		} 
-		else {	
-			if ( args != "" ) {
-				foreach ( arg of args.split(" ") ){
-					if ( arg ~= "/[dir|ftype][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
-						( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
-						me.var_map[name_var] = var;
-					}
-					else if ( arg != "" ){
-						println("Invalid argument " + arg );
-						break;
-						
-					}
+			
+		if ( args != "" ) {
+			foreach ( arg of args.split(" ") ){
+				if ( arg ~= "/[dir|ftype][^\s=]+=[^\s]+/" ){			// sono argomenti giusti?
+					( name_var, var ) = ( arg ~= "/([^\s=]+)=([^\s]+)/");
+					me.var_map[name_var] = var;
+				}
+				else if ( arg != "" ){
+					println("Invalid argument " + arg );
+					break;
+					
 				}
 			}
-			
-			foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
-				println(name_var + " = \"" + var + "\"");			// del suo contenuto
-			}
-			println("\nFiles: ");
-			println("   " + me.var_map["dir"]);
-			me.rec_files(me.var_map["dir"], me.align_out);
-			println("");
 		}
+		
+		foreach ( name_var -> var of me.var_map ){				// per ogni variabile settata dall'utente, faccio un print 
+			println(name_var + " = \"" + var + "\"");			// del suo contenuto
+		}
+		println("\nFiles: ");
+		println("   " + me.var_map["dir"]);
+		me.rec_files(me.var_map["dir"], me.align_out);
+		println("");
 	}
 	
 	
