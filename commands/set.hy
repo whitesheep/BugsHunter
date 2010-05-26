@@ -3,7 +3,6 @@ class Set extends ICommand {
 	
 	public method Set(){
 		me.ICommand("set");
-		me.parser = new Parser("bh.conf");
 	}
 
 	public method help(){
@@ -11,6 +10,9 @@ class Set extends ICommand {
 	}
 
 	public method exec( args ){
+		
+		me.parser = new Parser("bh.conf"); 					// dichiaro qui per evitare di riaprire il file ad ogni modifica
+		
 		if (args.split(" ")[0] == "help"){
 			me.help();
 			return true;

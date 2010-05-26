@@ -12,17 +12,26 @@ class Search extends ICommand {
 		me.vulns_search = [:];
 		
 		me.var_map = ["dir" : "./" , "ftype" : "php" , "level" : "all"];
-		me.parser = new Parser("bh.conf");
+		
 		me.align_out = "   ";
+		
+		me.set_var();
+		
+		me.ICommand("search");
+	}
+	
+	
+	private method set_var(){							//metodo per il settaggio delle variabili globali definite per il search.
+		
+		me.parser = new Parser("bh.conf");
 		
 		foreach( vulType of me.parser.read_conf("php").split(",") ){
 			me.vulns_search[vulType] = me.parser.read_conf(vulType);
 		}
 		
 		me.vulns_vars = me.parser.read_conf("php_vars");
-		
-		me.ICommand("search");
 	}
+	
 
 	public method help(){
 		println("* search [ dir=<path> ] [ ftype=FileExtenction ] [ level=all|critical ]\t\tsearch pattern in all founded file");
@@ -30,10 +39,12 @@ class Search extends ICommand {
 
 	public method exec( args ){
 		
+		me.set_var();	
+		
 		if (args.split(" ")[0] == "help"){
 			me.help();
 			println("Default ftype is " + me.var_map["ftype"],
-				"Default exclude is " + me.var_map["exclude"], 
+				"Default level is " + me.var_map["level"], 
 				"Default dir is " + me.var_map["dir"]);
 			return true;
 		} 
@@ -70,7 +81,7 @@ class Search extends ICommand {
 	}
 	
 	
-	private method rec_files(dir, align){         						 // metodo ricorsivo per la ricerca di tutti i file e il print in output a mo di albero
+	private method rec_files(dir, align){					 // metodo ricorsivo per la ricerca di tutti i file e il print in output a mo di albero
 		foreach ( file of readdir(dir,false) ){
 			if ( file["name"] != "." && file["name"] != ".." ){
 				if ( file["type"] == 4 ){

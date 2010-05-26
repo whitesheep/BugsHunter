@@ -5,8 +5,8 @@ class Http_server extends ICommand {
 	
 	public method Http_server(){
 		me.ICommand("http_server");
-		me.parser = new Parser("bh.conf");
-		me.http_class = new Http_class(me.parser.http_server_port, me.parser.http_server_path);
+		//me.parser = new Parser("bh.conf");
+		//me.http_class = new Http_class(me.parser.http_server_port, me.parser.http_server_path);
 	}
 
 	public method help(){
@@ -14,6 +14,9 @@ class Http_server extends ICommand {
 	}
 
 	public method exec( args ){
+		
+		me.parser = new Parser("bh.conf"); 					// ridichiaro qui per evitare di riaprire il file ad ogni modifica
+		
 		
 		switch ( args ){
 			
@@ -58,7 +61,7 @@ class Http_class extends Runnable{
 	public path;
 	public response;
 	
-	private method run( s ){
+	public method run( s ){
 		println( "New client thread started + " );
 		line = "";
 		page = "";
