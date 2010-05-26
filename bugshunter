@@ -1,0 +1,32 @@
+#!/usr/bin/hybris
+
+import  std.*;
+
+// interfaces:
+include class/ifaces/iworkspace;
+include class/ifaces/icommand;
+include class/ifaces/iexploit;
+
+// parser class:
+include class/Parser;
+
+// main class:
+include class/Main;
+
+bh = new Main();
+bh.ascii_art();
+bh.intro();
+
+
+while (1){
+		
+	// 0;37 light grey
+
+	( cmd, args ) = readline("\033[0;37mbugsH $> \033[0m") ~= "/^([^\s]+)\s*(.*)$/";
+	
+	output = bh.exec( cmd, args );
+	
+	println(output) unless !isstring(output);
+	
+}
+
