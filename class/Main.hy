@@ -46,7 +46,7 @@ class Main {
 		me.intro();
 		println("All commands: ",
 			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
-			"* use <workspace>\t\t\t\t\t\t\t\tselect workspace ( like \"auditing\" or \"exploit\" ) ");
+			"* use [workspace]\t\t\t\t\t\t\t\tselect workspace ( like \"auditing\" or \"exploit\" ) ");
 		foreach( name -> cmd of me.commands ){
 			cmd.help();
 		}
