@@ -74,7 +74,7 @@ class Search extends ICommand {
 		}
 		
 		
-		if ( me.var_map["level"] ~= "/^(all|critical)/" ) {
+		if ( me.var_map["level"] ~= "/^(all|critical)\b/" ) {
 			;
 		} else {
 			println("Invalid level " + me.var_map["level"] );
@@ -131,9 +131,9 @@ class Search extends ICommand {
 				
 				vars = me.vulns_vars.replace(",", "|").replace("$", "\$");				
 				
-				regex_search_critical = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*(" + vars + ")/i";			// regex per la ricerca di vulnz tipo critiche ( trova anche quelle inserite nel file di configurazuone )
+				regex_search_critical = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ")\b.*(" + vars + ")/i";			// regex per la ricerca di vulnz tipo critiche ( trova anche quelle inserite nel file di configurazuone )
 				
-				regex_search_medium = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ").*\$/i";				// regex per la ricerca di vulnz tipo medie ( controlla se ci sono inserimento variabili )
+				regex_search_medium = "/.*(" + me.vulns_search[vuls_type].replace(",", "|") + ")\b.*\$/i";				// regex per la ricerca di vulnz tipo medie ( controlla se ci sono inserimento variabili )
 				
 				regex_show = "/(.?.?.?.?.?.?.?)(\s?)(" + me.vulns_search[vuls_type].replace(",", "|") + ")(\s?)(.?.?.?.?.?.?.?)/i";			// regex per la visualizzazione della riga  
 				

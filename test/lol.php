@@ -7,3 +7,4 @@ asd
 asd
 include(asdasd);
 ciao & ciao
+SELECT_STO_CAZZO_$

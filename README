@@ -18,6 +18,14 @@ Commands:
 	edit					->	Open Xterm with your favourite editor.
 	sh					->	Launch sh commands.
 	set 					->	Set variables in conf file.
+	quit					->	Quit.
+	use					->	Select Workspace like audit or exploit.
+	
+		--------- Auditing Tool ----------
+	import_command				->	Import external command.
 	search					->	Search vulnz in source code.
 	tree					->	Show all files in a tree view.
-	quit					->	Quit.
+	
+		-------- Exploiting Tool ---------
+	import_command				->	Import external command.
+	http_server				->	Start Internal http server.

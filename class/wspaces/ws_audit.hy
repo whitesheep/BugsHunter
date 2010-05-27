@@ -45,10 +45,6 @@ class WS_audit extends IWorkspace{					// WorkSpace per auditing
 					me.import_command(args);
 				break;
 				
-				case "help" :
-					me.help();
-				break;
-				
 				default: 
 					println( cmd + " unknown command" );
 			}
