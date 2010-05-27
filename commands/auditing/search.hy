@@ -63,8 +63,19 @@ class Search extends ICommand {
 			}
 		}
 		
+		
+		try {
+			readdir( me.var_map["dir"] , false );
+		}
+		catch (e){
+			println(e);
+			me.var_map["dir"] = "./";
+			return false;
+		}
+		
+		
 		if ( me.var_map["level"] ~= "/^(all|critical)/" ) {
-			print("");
+			;
 		} else {
 			println("Invalid level " + me.var_map["level"] );
 			me.var_map["level"] = "all";

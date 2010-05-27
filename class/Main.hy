@@ -66,7 +66,7 @@ class Main {
 				
 				if ( me.workspaces.has(args) ){
 					me.using = args;
-					println("Unsing \" " + args + " \"");
+					println("Unsing \" " + args + " \" WorkSpace.");
 				} 
 				else { 
 					println( args + " workspace not found." ); 

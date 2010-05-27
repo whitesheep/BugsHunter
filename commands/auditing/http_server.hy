@@ -7,6 +7,9 @@ class Http_server extends ICommand {
 	private http_class;
 	private sd;
 	
+	private httpd;
+	
+	
 	public method Http_server(){
 		me.ICommand("http_server");
 		//me.parser = new Parser("bh.conf");
@@ -16,6 +19,21 @@ class Http_server extends ICommand {
 	public method help(){
 		println( "* http_server [start|stop|status]\t\t\t\t\t\tstart http server" );
 	}
+	
+	public method server_start(){
+		runner = new Runner( new Http_class() );
+		me.sd = server( 8040 );
+		if( me.sd <= 0 ){
+			return false;
+		}
+
+		while( (csd = accept(me.sd)) > 0 ){
+			runner.go( new Socket(csd) );
+		}
+		runner.join();
+		return true;
+	}
+	
 
 	public method exec( args ){
 		
@@ -26,22 +44,14 @@ class Http_server extends ICommand {
 			
 			case "start":
 				println("Http server start");
-				runner = new Runner( new Http_class() );
-				me.sd = server( 8040);
-				if( me.sd <= 0 ){
-					return false;
-				}
-
-				while( (csd = accept(me.sd)) > 0 ){
-					runner.go( new Socket(csd) );
-				}
-				runner.join();
-				return true;
+				me.httpd = pthread_create( "me.server_start" , "");
 			break;
 			
 			case "stop":
 				println("Http server start");
-				
+				if ( me.httpd ){
+					pthread_kill(me.httpd);
+				}
 			break;
 			
 			case "status":
@@ -66,15 +76,13 @@ class Http_class extends Runnable{
 	public response;
 	
 	public method run( s ){
-		println( "New client thread started + " );
 		line = "";
 		page = "";
 		while( line = s.readline() ){
-			if( (matches = (line ~= "\s*GET ([^\s]+) HTTP + +")) ){
-				page = matches[0];
+			if( (matches = (line ~= "\s?(GET|POST)\s(.*)\sHTTP")) ){
+				page = matches[1];
 			} else if( line == "\r\n" ){
-				filename = path + page;
-				println( "Sending " + filename );
+				filename = "./www/" + page;
 				fp = fopen( filename, "rt" );
 				if( fp ){
 					s.write( "HTTP/1 + 1 200 OK\r\n" +
@@ -87,7 +95,7 @@ class Http_class extends Runnable{
        						fclose(fp);
 				} else{
 					s.write( "HTTP/1 + 1 404 Not Found\r\n" +
-					"Content-Length: 3\r\n\r\nlol" );
+					"Content-Length: 70\r\n\r\n<title>BugsHunter Http Server</title><h1>404</h1><br />File Not Found." );
 				}
 				break;
 			}
