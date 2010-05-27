@@ -7,6 +7,7 @@ class IWorkspace {
 	private commands;
 	private files;
 	public name;
+	public description;
 	
 	public method IWorkspace ( name, commands_path ) {
 		me.name = name;

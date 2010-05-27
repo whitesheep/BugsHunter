@@ -8,7 +8,7 @@ class Main {
 	public method Main(){
 		
 		me.files = readdir("./commands", false);
-		me.workspace_files = readdir("./class/use", false);
+		me.workspace_files = readdir("./class/wspaces", false);
 		me.commands = [:];
 		me.workspaces = [:];
 		me.using = "";
@@ -36,7 +36,7 @@ class Main {
 	private method import_workspaces(){
 		foreach( file of me.workspace_files ){
 			if ( file["type"] != DT_DIR ){
-				load("./class/use/" + file["name"]);
+				load("./class/wspaces/" + file["name"]);
 				me.workspaces[__workspace_instance.name] = __workspace_instance;
 			}
 		}
@@ -69,7 +69,13 @@ class Main {
 					println("Unsing \" " + args + " \" WorkSpace.");
 				} 
 				else { 
-					println( args + " workspace not found." ); 
+					if ( args == "" ){
+						foreach ( name -> ws of me.workspaces ){
+							println("+ " + name + " " + ws.description);
+						}
+					} else {
+						println( args + " workspace not found." ); 
+					}
 				}
 				
 			break;
