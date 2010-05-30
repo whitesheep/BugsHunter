@@ -1,0 +1,5 @@
+./bugshunter <<END
+use audit
+search dir=test level=critical
+quit
+END
