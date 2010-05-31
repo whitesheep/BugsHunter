@@ -22,19 +22,19 @@ import  std.*;
 
 // interfaces:
 
-include class/ifaces/iworkspace;
-include class/ifaces/icommand;
-include class/ifaces/iexploit;
+include includes/ifaces/iworkspace;
+include includes/ifaces/icommand;
+include includes/ifaces/iexploit;
 
 
 // parser class:
 
-include class/Parser;
+include includes/Parser;
 
 
 // main class:
 
-include class/Main;
+include includes/Main;
 
 
 

@@ -26,7 +26,7 @@ class Main {
 	public method Main(){
 		
 		me.files = readdir("./commands", false);
-		me.workspace_files = readdir("./class/wspaces", false);
+		me.workspace_files = readdir("./includes/wspaces", false);
 		me.commands = [:];
 		me.workspaces = [:];
 		me.using = "";
@@ -54,7 +54,7 @@ class Main {
 	private method import_workspaces(){
 		foreach( file of me.workspace_files ){
 			if ( file["type"] != DT_DIR ){
-				load("./class/wspaces/" + file["name"]);
+				load("./includes/wspaces/" + file["name"]);
 				me.workspaces[__workspace_instance.name] = __workspace_instance;
 			}
 		}
