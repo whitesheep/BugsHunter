@@ -20,6 +20,10 @@
 
 import  std.*;
 
+// Structs
+
+include includes/structs/sexploit;
+
 // interfaces:
 
 include includes/ifaces/iworkspace;
