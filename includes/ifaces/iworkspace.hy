@@ -33,6 +33,7 @@ class IWorkspace {
 		me.files = readdir(commands_path, false);
 	}
 	
+	public method using(){ }
 	public method help(){ }
 	public method exec( args ){ }	
 }

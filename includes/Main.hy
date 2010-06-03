@@ -85,6 +85,7 @@ class Main {
 				if ( me.workspaces.has(args.trim()) ){
 					me.using = args.trim();
 					println("Using \" " + args.trim() + " \" WorkSpace.");
+					me.workspaces[me.using].using();
 				} 
 				else { 
 					if ( args == "" ){
