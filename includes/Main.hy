@@ -61,7 +61,6 @@ class Main {
 	}
 
 	private method help(){
-		me.intro();
 		println("All commands: ",
 			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
 			"* use [workspace]\t\t\t\t\t\t\t\tselect workspace ( \"use\" to show all workspaces) ");
