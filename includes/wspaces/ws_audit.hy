@@ -18,7 +18,14 @@
 
 class WS_audit extends IWorkspace{					// WorkSpace per auditing
 									// Per usarlo "use auditing"
+
+	private hash_case;
+	
 	public method WS_audit(){
+		
+		
+		me.hash_case = [ "import_command" : new MethodReference( me, "import_command") 		];
+		
 		
 		me.IWorkspace("audit", "./commands/audit");
 		me.description = "\t\t\t\tWorkspace for auditing of source code."
@@ -54,20 +61,27 @@ class WS_audit extends IWorkspace{					// WorkSpace per auditing
 		
 		if( me.commands.has(cmd) ){
 			return me.commands[cmd].exec(args);
-		}
-		
-		else {
-			switch ( cmd ) {
-				
-				case "import_command" :
-					me.import_command(args);
-				break;
-				
-				default: 
-					println( cmd + " unknown command" );
+		} else {
+			if ( me.hash_case.has(cmd) ){
+				me.hash_case[cmd].call( [ me, args ] );
+			} else {
+				println( cmd + " unknown command" );
 			}
 		}
 	}
+	
+	/*
+	*		Inizio metodi MethodReference di sostituzione al case
+	*/
+	
+	public method import_command(me, file){
+		load(file);
+		me.commands[__cmd_instance.name] = __cmd_instance;
+	}
+	
+	/*
+	*		Fine metodi ( Method Reference )
+	*/
 	
 }
 
