@@ -19,6 +19,7 @@
  */
 
 import  std.*;
+include std.MethodReference;
 
 // Structs
 

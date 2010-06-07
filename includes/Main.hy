@@ -22,8 +22,13 @@ class Main {
 	private using;
 	private files;
 	private workspace_files;
+	private hash_case;
 
 	public method Main(){
+		
+		me.hash_case = ["help" : new MethodReference( me, "help"),
+				"use"  : new MethodReference( me, "use")   ];
+		
 		
 		me.files = readdir("./commands", false);
 		me.workspace_files = readdir("./includes/wspaces", false);
@@ -60,52 +65,27 @@ class Main {
 		}
 	}
 
-	private method help(){
-		println("All commands: ",
-			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
-			"* use [workspace]\t\t\t\t\t\t\t\tselect workspace ( \"use\" to show all workspaces) ");
-		foreach( name -> cmd of me.commands ){
-			cmd.help();
-		}
-	}
-
 	public method exec( cmd, args ){
-		switch ( cmd ) {
+		
+		if ( me.hash_case.has(cmd) ){
+		
+			me.hash_case[cmd].call( [me, args] );
 			
-			case "help" :
-				me.help();
-				if ( me.using != "" ){ 
-					me.workspaces[me.using].help();
-				}
-			break;
+		} else {
+		
+			if ( me.commands.has(cmd) ){
 			
-			case "use" :
+				return me.commands[cmd].exec(args);
 				
-				if ( me.workspaces.has(args.trim()) ){
-					me.using = args.trim();
-					println("Using \" " + args.trim() + " \" WorkSpace.");
-					me.workspaces[me.using].using();
-				} 
-				else { 
-					if ( args == "" ){
-						foreach ( name -> ws of me.workspaces ){
-							println("+ " + name + " " + ws.description);
-						}
-					} else {
-						println( args.trim() + " workspace not found." ); 
-					}
-				}
-				
-			break;
+			} else if ( me.using != "" ){ 
 			
-			default: 
-				if ( me.commands.has(cmd) ){
-					return me.commands[cmd].exec(args);
-				} else if ( me.using != "" ){ 
-					me.workspaces[me.using].exec(cmd, args);
-				} else if ( me.using == "" ){
-					println( cmd + " unknown command" );
-				}
+				me.workspaces[me.using].exec(cmd, args);
+				
+			} else if ( me.using == "" ){
+			
+				println( cmd + " unknown command" );
+				
+			}
 		}
 	}
 	
@@ -157,5 +137,52 @@ class Main {
 			break;
 		}
 	}
+	
+	
+	/*
+	*		Inizio metodi di sostituzione al "case" per MethodReference
+	*/
+	
+	
+	private method help( me ){
+		
+		println("All commands: ",
+			"* help\t\t\t\t\t\t\t\t\t\tshow this message",
+			"* use [workspace]\t\t\t\t\t\t\t\tselect workspace ( \"use\" to show all workspaces) ");
+		
+		foreach( name -> cmd of me.commands ){
+			cmd.help();
+		}
+		
+		if ( me.using != "" ){ 
+			me.workspaces[me.using].help();
+		}
+		
+	}
+	
+	private method use(me, args ){
+		if ( me.workspaces.has(args.trim()) ){
+			me.using = args.trim();
+			println("Using \" " + args.trim() + " \" WorkSpace.");
+			me.workspaces[me.using].using();
+		} 
+		else { 
+			if ( args == "" ){
+			
+				foreach ( name -> ws of me.workspaces ){
+					println("+ " + name + " " + ws.description);
+				}
+				
+			} else {
+				println( args.trim() + " workspace not found." ); 
+			}
+		}
+	}
+	
+	
+	
+	/*
+	*		Fine metodi ( MethodReference )
+	*/
 		
 } 
