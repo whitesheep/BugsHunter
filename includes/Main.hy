@@ -69,7 +69,7 @@ class Main {
 		
 		if ( me.hash_case.has(cmd) ){
 		
-			me.hash_case[cmd].call( [me, args] );
+			me.hash_case[cmd].call( [args] );
 			
 		} else {
 		
@@ -160,7 +160,7 @@ class Main {
 		
 	}
 	
-	private method use(me, args ){
+	private method use( args ){
 		if ( me.workspaces.has(args.trim()) ){
 			me.using = args.trim();
 			println("Using \" " + args.trim() + " \" WorkSpace.");
