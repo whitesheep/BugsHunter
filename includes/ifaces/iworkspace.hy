@@ -26,8 +26,10 @@ class IWorkspace {
 	private files;
 	public name;
 	public description;
+	public used;
 	
 	public method IWorkspace ( name, commands_path ) {
+		me.used = false;
 		me.name = name;
 		me.commands = [:];
 		me.files = readdir(commands_path, false);
