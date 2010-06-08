@@ -37,7 +37,7 @@ class Read extends ICommand {
 		} 
 		if ( args.split(" ")[0] == "*" ){
 			foreach ( key of me.parser._keys() ){
-				println(key + " = " +me.parser.read_conf(key));
+				println(key + " = " + me.parser.read_conf(key));
 			}
 		} else {
 			println(me.parser.read_conf(args));

@@ -24,7 +24,7 @@ class WS_audit extends IWorkspace{					// WorkSpace per auditing
 	public method WS_audit(){
 		
 		
-		me.hash_case = [ "import_command" : new MethodReference( me, "import_command") 		];
+		me.hash_case = [ "import_command" 	: new MethodReference( me, "import_command") 		];
 		
 		
 		me.IWorkspace("audit", "./commands/audit");
